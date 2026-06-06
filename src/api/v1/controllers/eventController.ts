@@ -7,68 +7,115 @@ import {
     updateEvent,
 } from "../services/eventService";
 
-export const getEvents = (_req: Request, res: Response): void => {
-    res.status(200).json({
-        message: "Events retrieved successfully",
-        data: getAllEvents(),
-    });
-};
+export const getEvents = async (
+    _req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const events = await getAllEvents();
 
-export const getEvent = (req: Request, res: Response): void => {
-    const id = req.params.id as string;
-    const event = getEventById(id);
-
-    if (!event) {
-        res.status(404).json({
-            message: "Event not found",
+        res.status(200).json({
+            message: "Events retrieved successfully",
+            data: events,
         });
-        return;
-    }
-
-    res.status(200).json({
-        message: "Event retrieved successfully",
-        data: event,
-    });
-};
-
-export const addEvent = (req: Request, res: Response): void => {
-    const event = createEvent(req.body);
-
-    res.status(201).json({
-        message: "Event created successfully",
-        data: event,
-    });
-};
-
-export const editEvent = (req: Request, res: Response): void => {
-    const id = req.params.id as string;
-    const event = updateEvent(id, req.body);
-
-    if (!event) {
-        res.status(404).json({
-            message: "Event not found",
+    } catch {
+        res.status(500).json({
+            message: "Failed to retrieve events",
         });
-        return;
     }
-
-    res.status(200).json({
-        message: "Event updated successfully",
-        data: event,
-    });
 };
 
-export const removeEvent = (req: Request, res: Response): void => {
-    const id = req.params.id as string;
-    const deleted = deleteEvent(id);
+export const getEvent = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id = req.params.id as string;
+        const event = await getEventById(id);
 
-    if (!deleted) {
-        res.status(404).json({
-            message: "Event not found",
+        if (!event) {
+            res.status(404).json({
+                message: "Event not found",
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: "Event retrieved successfully",
+            data: event,
         });
-        return;
+    } catch {
+        res.status(500).json({
+            message: "Failed to retrieve event",
+        });
     }
+};
 
-    res.status(200).json({
-        message: "Event deleted successfully",
-    });
+export const addEvent = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const event = await createEvent(req.body);
+
+        res.status(201).json({
+            message: "Event created successfully",
+            data: event,
+        });
+    } catch {
+        res.status(500).json({
+            message: "Failed to create event",
+        });
+    }
+};
+
+export const editEvent = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id = req.params.id as string;
+        const event = await updateEvent(id, req.body);
+
+        if (!event) {
+            res.status(404).json({
+                message: "Event not found",
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: "Event updated successfully",
+            data: event,
+        });
+    } catch {
+        res.status(500).json({
+            message: "Failed to update event",
+        });
+    }
+};
+
+export const removeEvent = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id = req.params.id as string;
+        const deleted = await deleteEvent(id);
+
+        if (!deleted) {
+            res.status(404).json({
+                message: "Event not found",
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: "Event deleted successfully",
+        });
+    } catch {
+        res.status(500).json({
+            message: "Failed to delete event",
+        });
+    }
 };

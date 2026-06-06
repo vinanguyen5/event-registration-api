@@ -6,9 +6,25 @@ import {
     updateEvent,
 } from "../src/api/v1/services/eventService";
 import { Event } from "../src/api/v1/models/eventModel";
+import {
+    createEventDocument,
+    deleteEventDocument,
+    getAllEventDocuments,
+    getEventDocumentById,
+    updateEventDocument,
+} from "../src/api/v1/repositories/eventRepository";
+
+jest.mock("../src/api/v1/repositories/eventRepository");
+
+const mockCreateEventDocument = createEventDocument as jest.Mock;
+const mockDeleteEventDocument = deleteEventDocument as jest.Mock;
+const mockGetAllEventDocuments = getAllEventDocuments as jest.Mock;
+const mockGetEventDocumentById = getEventDocumentById as jest.Mock;
+const mockUpdateEventDocument = updateEventDocument as jest.Mock;
 
 describe("eventService", () => {
     const sampleEvent: Event = {
+        id: "abc123",
         name: "Tech Workshop",
         description: "A beginner friendly technology workshop",
         date: "2026-07-15T18:00:00.000Z",
@@ -20,60 +36,76 @@ describe("eventService", () => {
         organizerEmail: "vina@example.com",
     };
 
-    it("should create an event", () => {
-        // Arrange & Act
-        const event = createEvent(sampleEvent);
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should create an event using the repository", async () => {
+        // Arrange
+        mockCreateEventDocument.mockResolvedValue(sampleEvent);
+
+        // Act
+        const event = await createEvent(sampleEvent);
 
         // Assert
-        expect(event.id).toBeDefined();
+        expect(mockCreateEventDocument).toHaveBeenCalledWith(sampleEvent);
+        expect(event.id).toBe("abc123");
         expect(event.name).toBe("Tech Workshop");
     });
 
-    it("should get all events", () => {
+    it("should get all events using the repository", async () => {
         // Arrange
-        createEvent(sampleEvent);
+        mockGetAllEventDocuments.mockResolvedValue([sampleEvent]);
 
         // Act
-        const events = getAllEvents();
+        const events = await getAllEvents();
 
         // Assert
-        expect(events.length).toBeGreaterThan(0);
+        expect(mockGetAllEventDocuments).toHaveBeenCalled();
+        expect(events).toHaveLength(1);
     });
 
-    it("should get an event by id", () => {
+    it("should get an event by id using the repository", async () => {
         // Arrange
-        const createdEvent = createEvent(sampleEvent);
+        mockGetEventDocumentById.mockResolvedValue(sampleEvent);
 
         // Act
-        const foundEvent = getEventById(createdEvent.id as string);
+        const event = await getEventById("abc123");
 
         // Assert
-        expect(foundEvent).toBeDefined();
-        expect(foundEvent?.id).toBe(createdEvent.id);
+        expect(mockGetEventDocumentById).toHaveBeenCalledWith("abc123");
+        expect(event?.id).toBe("abc123");
     });
 
-    it("should update an event", () => {
+    it("should update an event using the repository", async () => {
         // Arrange
-        const createdEvent = createEvent(sampleEvent);
+        const updatedEvent = {
+            ...sampleEvent,
+            name: "Updated Tech Workshop",
+        };
+        mockUpdateEventDocument.mockResolvedValue(updatedEvent);
 
         // Act
-        const updatedEvent = updateEvent(createdEvent.id as string, {
+        const event = await updateEvent("abc123", {
             name: "Updated Tech Workshop",
         });
 
         // Assert
-        expect(updatedEvent).toBeDefined();
-        expect(updatedEvent?.name).toBe("Updated Tech Workshop");
+        expect(mockUpdateEventDocument).toHaveBeenCalledWith("abc123", {
+            name: "Updated Tech Workshop",
+        });
+        expect(event?.name).toBe("Updated Tech Workshop");
     });
 
-    it("should delete an event", () => {
+    it("should delete an event using the repository", async () => {
         // Arrange
-        const createdEvent = createEvent(sampleEvent);
+        mockDeleteEventDocument.mockResolvedValue(true);
 
         // Act
-        const deleted = deleteEvent(createdEvent.id as string);
+        const deleted = await deleteEvent("abc123");
 
         // Assert
+        expect(mockDeleteEventDocument).toHaveBeenCalledWith("abc123");
         expect(deleted).toBe(true);
     });
 });
