@@ -1,14 +1,11 @@
 export interface Event {
     id?: string;
     name: string;
-    description: string;
     date: string;
-    location: string;
     capacity: number;
-    category: string;
-    status: string;
-    price?: number;
-    organizerEmail: string;
+    registrationCount?: number;
+    status?: string;
+    category?: string;
     createdAt?: string;
     updatedAt?: string;
 }

@@ -25,15 +25,12 @@ const mockUpdateEventDocument = updateEventDocument as jest.Mock;
 describe("eventService", () => {
     const sampleEvent: Event = {
         id: "abc123",
-        name: "Tech Workshop",
-        description: "A beginner friendly technology workshop",
-        date: "2026-07-15T18:00:00.000Z",
-        location: "Winnipeg",
-        capacity: 50,
-        category: "workshop",
-        status: "published",
-        price: 25,
-        organizerEmail: "vina@example.com",
+        name: "Tech Conference 2027",
+        date: "2027-12-25T09:00:00.000Z",
+        capacity: 200,
+        registrationCount: 50,
+        status: "active",
+        category: "conference",
     };
 
     afterEach(() => {
@@ -50,7 +47,7 @@ describe("eventService", () => {
         // Assert
         expect(mockCreateEventDocument).toHaveBeenCalledWith(sampleEvent);
         expect(event.id).toBe("abc123");
-        expect(event.name).toBe("Tech Workshop");
+        expect(event.name).toBe("Tech Conference 2027");
     });
 
     it("should get all events using the repository", async () => {
@@ -81,20 +78,20 @@ describe("eventService", () => {
         // Arrange
         const updatedEvent = {
             ...sampleEvent,
-            name: "Updated Tech Workshop",
+            name: "Updated Tech Conference",
         };
         mockUpdateEventDocument.mockResolvedValue(updatedEvent);
 
         // Act
         const event = await updateEvent("abc123", {
-            name: "Updated Tech Workshop",
+            name: "Updated Tech Conference",
         });
 
         // Assert
         expect(mockUpdateEventDocument).toHaveBeenCalledWith("abc123", {
-            name: "Updated Tech Workshop",
+            name: "Updated Tech Conference",
         });
-        expect(event?.name).toBe("Updated Tech Workshop");
+        expect(event?.name).toBe("Updated Tech Conference");
     });
 
     it("should delete an event using the repository", async () => {
