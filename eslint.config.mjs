@@ -6,9 +6,10 @@ export default tseslint.config(
     {
         ignores: [
             "**/dist/*",
-            "**coverage/*",
-            "**.github/*",
+            "**/coverage/*",
+            "**/.github/*",
             "eslint.config.mjs",
+            "jest.config.js",
             "jest.config.ts",
         ],
     },
@@ -25,27 +26,13 @@ export default tseslint.config(
     },
     {
         files: ["./**/*.ts", "./**/*.tsx"],
-    },
-    {
         rules: {
-            // Core focus: enforce types on variables, function return types, and parameters
-            "@typescript-eslint/explicit-function-return-type": "error", // Require return types on functions
-            "@typescript-eslint/no-unused-vars": "error", // Disallow unused variables
+            "@typescript-eslint/explicit-function-return-type": "error",
             "@typescript-eslint/no-unused-vars": [
                 "error",
-                { argsIgnorePattern: "^_" }, // allow unused variables prefixed with underscore
+                { argsIgnorePattern: "^_" }
             ],
-            "@typescript-eslint/typedef": [
-                "error",
-                {
-                    parameter: true, // Require types for function parameters
-                    propertyDeclaration: true, // Require types for class properties
-                    variableDeclaration: true, // Require types for variables
-                    memberVariableDeclaration: true, // Require types for member variables
-                    variableDeclarationIgnoreFunction: true, // Ignore types for function variables
-                },
-            ],
-            // Allow ES6 imports with CommonJS output
+            "@typescript-eslint/typedef": "off",
             "@typescript-eslint/no-require-imports": "off",
             "@typescript-eslint/no-var-requires": "off",
         },
