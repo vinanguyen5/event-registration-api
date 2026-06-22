@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import eventRoutes from "./api/v1/routes/eventRoutes";
 import { getHelmetConfig } from "../config/helmetConfig";
 import { getCorsOptions } from "../config/corsConfig";
+import setupSwagger from "../config/swagger";
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(getHelmetConfig());
 app.use(cors(getCorsOptions()));
 app.use(express.json());
 app.use(morgan("dev"));
+
+setupSwagger(app);
 
 app.get("/health", (_req, res) => {
     res.status(200).json({
