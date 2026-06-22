@@ -1,11 +1,17 @@
-import express from "express";
+﻿import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import dotenv from "dotenv";
 import eventRoutes from "./api/v1/routes/eventRoutes";
+import { getHelmetConfig } from "../config/helmetConfig";
+import { getCorsOptions } from "../config/corsConfig";
+
+dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(getHelmetConfig());
+app.use(cors(getCorsOptions()));
 app.use(express.json());
 app.use(morgan("dev"));
 
