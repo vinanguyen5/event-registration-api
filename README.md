@@ -4,14 +4,21 @@
 
 The Event Registration API is a backend service for managing events and event registration information. It allows users to create, view, update, and delete event records.
 
-This API is designed for developers who need a simple event management backend. It includes validation, security headers, custom CORS settings, and OpenAPI documentation.
+This API is designed for developers who need a simple event management backend. It includes request validation, security headers, custom CORS settings, and OpenAPI documentation.
 
-## Local Documentation
+## Installation Instructions
 
-When the server is running locally, Swagger UI is available at:
+### Prerequisites
 
-http://localhost:3000/api-docs
+- Node.js 20 or newer
+- npm
+- Git
 
-## Public Documentation
+### Setup
 
-The deployed GitHub Pages documentation will be added after deployment.
+Clone the repository:
+
+```bash
+git clone https://github.com/vinanguyen5/event-registration-api.git
+cd event-registration-api
+npm install
