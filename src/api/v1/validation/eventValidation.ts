@@ -26,7 +26,7 @@ export const createEventSchema = Joi.object({
         .default("active"),
 
     category: Joi.string()
-        .valid("conference", "workshop", "meetup", "seminar", "general")
+        .valid("conference", "workshop", "meetup", "seminar", "general", "networking")
         .default("general"),
 });
 
