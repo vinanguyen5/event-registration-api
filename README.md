@@ -148,3 +148,11 @@ Generate the static documentation site:
 ```bash
 npm run generate-docs
 ```
+
+## Documentation Commands
+
+Generate the OpenAPI JSON file:
+
+```bash
+npm run generate-openapi
+npm run generate-docs
