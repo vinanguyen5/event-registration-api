@@ -1,4 +1,4 @@
-﻿# Event Registration API
+# Event Registration API
 
 ## Project Overview
 
@@ -63,7 +63,7 @@ http://localhost:3000/api-docs
 
 ## Public Documentation
 
-The deployed GitHub Pages documentation will be added after deployment.
+Full API documentation is available at: https://vinanguyen5.github.io/event-registration-api/
 
 ## API Request Examples
 
